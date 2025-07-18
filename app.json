@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MoneyGuard",
-    "slug": "budgetguard-mobile",
+    "slug": "moneyguard-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,8 +15,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.budgetguard.mobile"
+      "supportsTablet": false,
+      "bundleIdentifier": "com.budgetguard.mobile",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "background-fetch"
+        ],
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -29,7 +36,11 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "apiUrl": "https://5000-workspace-joelcundiff2.4e8d8b0c-cac8-413e-81bd-4a934fb6a8e4-00-30mgr449w240a.picard.replit.dev"
-    }
+      "eas": {
+        "projectId": "6db2b84a-83b2-49c7-adeb-5feb62266ba6"
+      }
+    },
+    "owner": "jcundiff2",
+    "platforms": ["web"]
   }
 }
