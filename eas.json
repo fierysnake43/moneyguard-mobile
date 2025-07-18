@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 12.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "ios": {
+        "image": "macos-sonoma-14.6-xcode-16.1",
+        "autoIncrement": "buildNumber"
+      },
+      "android": {
+        "image": "ubuntu-24.04-android-34"
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "joelascious1@icloud.com",
+        "ascAppId": "6748765441",
+        "appleTeamId": "AW4XQTS3RZ"
+      }
+    }
+  }
+}
