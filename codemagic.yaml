@@ -1,0 +1,62 @@
+workflows:
+  ios-workflow:
+    name: MoneyGuard iOS Build
+    max_build_duration: 120
+    instance_type: mac_mini_m2
+    working_directory: .
+    environment:
+      groups:
+        - appstore_credentials
+      vars:
+        BUNDLE_ID: "com.budgetguard.mobile"
+        EXPO_CACHE_SKIP: 1
+      node: 18.17.0
+      xcode: 15.2
+      cocoapods: default
+    scripts:
+      - name: Install npm dependencies
+        script: |
+          npm install
+      - name: Install Expo CLI
+        script: |
+          npm install -g @expo/cli@latest eas-cli@latest
+      - name: Set up keychain to be used for codesigning
+        script: |
+          keychain initialize
+      - name: Fetch signing files
+        script: |
+          app-store-connect fetch-signing-files $BUNDLE_ID --type IOS_APP_STORE --create
+      - name: Set up signing certificate
+        script: |
+          keychain add-certificates
+      - name: Set up provisioning profiles
+        script: |
+          xcode-project use-profiles
+      - name: Build with Expo
+        script: |
+          expo prebuild --platform ios --clear
+          cd ios && pod install
+      - name: Build ipa for distribution
+        script: |
+          cd ios
+          xcode-project build-ipa \
+            --workspace "*.xcworkspace" \
+            --scheme "*"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      email:
+        recipients:
+          - joelascious1@icloud.com
+        notify:
+          success: true
+          failure: true
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - App Store Connect Users
+        submit_to_app_store: false
